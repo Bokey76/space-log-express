@@ -1,0 +1,49 @@
+# Node.js依赖包
+node_modules/
+
+# 私密配置项
+config/*
+!config/
+!config/example.js
+
+# 日志文件
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 环境变量文件
+.env.*
+
+# IDE和编辑器配置文件
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# 构建输出目录
+dist/
+build/
+public/
+
+# 缓存文件
+.npm/
+.cache/
+.tmp/
+
+# 覆盖率报告文件
+coverage/
+
+# 临时文件
+tmp/
+temp/
+
+# 挂载点
+mnt/
