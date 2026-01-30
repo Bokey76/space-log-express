@@ -172,42 +172,6 @@ module.exports = function (sequelize, DataTypes) {
             }
           }
         },
-        // 删除评论前，删除oss图片
-        beforeBulkDestroy: async (comment) => {
-          const ossService = require("../services/ossService"); // 避免循环依赖
-          const commentService = require("../services/commentService");
-          let commentArr = [];
-          if (typeof comment.where.id == "string") {
-            commentArr = [comment.where.id];
-          } else {
-            for (const id of comment.where.id[
-              Object.getOwnPropertySymbols(comment.where.id)[0]
-            ]) {
-              commentArr.push(id);
-            }
-          }
-          try {
-            const hasImageCommentEntityType = ["Message"];
-            for (const id of commentArr) {
-              const commentItem = await commentService.getCommentById(id);
-              if (
-                hasImageCommentEntityType.includes(
-                  commentItem.get({ plain: true }).entityType
-                )
-              ) {
-                const commentImages = await ossService.getFileInPath(
-                  `/image/messageImage/${commentItem.get({ plain: true }).userId == -1 ? "admin" : id}`
-                ); // 获取评论的所有图片文件
-                // 删除评论图片
-                for (item of commentImages) {
-                  await ossService.deleteFile(item.name, false);
-                }
-              }
-            }
-          } catch (error) {
-            throw new Error(`删除评论图片时出错: ${error.message}`);
-          }
-        },
       },
     }
   );
